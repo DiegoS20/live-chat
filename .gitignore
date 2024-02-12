@@ -13,3 +13,4 @@ stats.html
 .eslintcache
 .env
 .env.*
+.data
