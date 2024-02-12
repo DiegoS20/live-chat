@@ -67,6 +67,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.35
     version: 8.4.35
+  sass:
+    specifier: ^1.70.0
+    version: 1.70.0
   tailwindcss:
     specifier: ^3.4.1
     version: 3.4.1
@@ -75,7 +78,7 @@ devDependencies:
     version: 5.3.3
   vite:
     specifier: ^5.1.0
-    version: 5.1.1(@types/node@20.11.17)
+    version: 5.1.1(@types/node@20.11.17)(sass@1.70.0)
 
 packages:
 
@@ -968,7 +971,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.9)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.0
-      vite: 5.1.1(@types/node@20.11.17)
+      vite: 5.1.1(@types/node@20.11.17)(sass@1.70.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1582,6 +1585,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immutable@4.3.5:
+    resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
+    dev: true
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2105,6 +2112,16 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
 
+  /sass@1.70.0:
+    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.6.0
+      immutable: 4.3.5
+      source-map-js: 1.0.2
+    dev: true
+
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
@@ -2335,7 +2352,7 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  /vite@5.1.1(@types/node@20.11.17):
+  /vite@5.1.1(@types/node@20.11.17)(sass@1.70.0):
     resolution: {integrity: sha512-wclpAgY3F1tR7t9LL5CcHC41YPkQIpKUGeIuT8MdNwNZr6OqOTLs7JX5vIHAtzqLWXts0T+GDrh9pN2arneKqg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -2367,6 +2384,7 @@ packages:
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.10.0
+      sass: 1.70.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
