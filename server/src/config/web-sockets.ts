@@ -13,4 +13,6 @@ export default function WebSocketsConfiguration(
   io.on("connection", () => {
     console.log("A user has connected!");
   });
+
+  io.use((socket, next) => {});
 }
