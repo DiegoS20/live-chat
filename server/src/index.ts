@@ -1,16 +1,22 @@
+import { createServer } from "http";
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import path from "path";
 import fs from "fs";
+import WebSocketsConfiguration from "./config/web-sockets";
 
 dotenv.config();
 const app = express();
-app.use(morgan("dev"));
+const server = createServer(app);
+WebSocketsConfiguration(server);
 
-//
+// Loading middlewares
+app.use(morgan("dev"));
+app.use(cors());
+
 // Loading routes
-//
 console.log("Loading routes...");
 const routesPath = path.join(__dirname, "routes");
 Promise.all(
@@ -30,7 +36,7 @@ Promise.all(
   })
 ).then(() => {
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 });
