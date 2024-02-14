@@ -1,0 +1,44 @@
+.form-with-img {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 75%;
+    border-radius: 10px;
+    background-color: #fff;
+    overflow: hidden;
+
+    -webkit-box-shadow: 2px 2px 7px 2px #ababab;
+    box-shadow: 2px 2px 7px 2px #ababab;
+
+    & > div {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-container {
+      padding: 5%;
+      background-color: #407bff;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      & :global {
+        .MuiInputBase-root {
+          background-color: #fff;
+        }
+      }
+
+      .form {
+        width: 100%;
+      }
+    }
+  }
+}
