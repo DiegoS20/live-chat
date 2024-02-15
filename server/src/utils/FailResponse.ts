@@ -1,4 +1,5 @@
 import { Response } from "express";
+import ErrorWithCode from "../errors/ErrorWithCode";
 
 export default async function FailResponse(
   response: Response,
@@ -11,6 +12,6 @@ export default async function FailResponse(
       .json({
         message: error.message,
       })
-      .status(error.statusCode || 500);
+      .status(error instanceof ErrorWithCode ? error.statusCode : 500);
   }
 }
