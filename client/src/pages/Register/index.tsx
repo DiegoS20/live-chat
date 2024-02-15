@@ -6,6 +6,7 @@ import { register as registerService } from "@/services/users";
 import { TUser } from "@/types";
 
 import FormWithImg from "@/components/FormWithImg";
+import WhiteLink from "@/components/WhiteLink";
 
 import img from "@/assets/images/register.svg";
 
@@ -82,6 +83,9 @@ const Form = () => {
         />
       </Grid>
       <Grid item lg={12}>
+        <WhiteLink to="/login">Do you already have an account? Login</WhiteLink>
+      </Grid>
+      <Grid item lg={12}>
         <Button
           fullWidth
           type="submit"
@@ -89,7 +93,7 @@ const Form = () => {
           color="secondary"
           disabled={isSubmitting}
         >
-          Registrarse
+          Create account
         </Button>
       </Grid>
       {error && (
