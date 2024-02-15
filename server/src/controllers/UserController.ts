@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../prisma";
 import { TUser } from "../types";
+import FailResponse from "../utils/FailResponse";
 
 export default class UserController {
   /**
    * POST: /register
    */
   public static async register(request: Request, response: Response) {
-    try {
+    await FailResponse(response, async () => {
       const body = request.body as TUser;
       const { password, ...accountInfo } = body;
 
@@ -24,12 +25,6 @@ export default class UserController {
       });
 
       response.sendStatus(201);
-    } catch (error: any) {
-      response
-        .json({
-          message: error.message,
-        })
-        .status(500);
-    }
+    });
   }
 }
