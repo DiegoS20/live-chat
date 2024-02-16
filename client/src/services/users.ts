@@ -24,3 +24,30 @@ export const register = async (user: TUser) => {
     return false;
   }
 };
+
+export const login = async (email: string, password: string) => {
+  try {
+    const res = await fetch(`${API_URL}/user/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const status = res.status;
+
+    if (status != 200) {
+      const { message } = (await res.json()) as APIResponse;
+      throw new Error(message);
+    }
+
+    return true;
+  } catch (error: any) {
+    console.warn(`User login service failed: ${error.message}`);
+    return false;
+  }
+};
