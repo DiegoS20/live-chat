@@ -4,3 +4,8 @@ export type TUser = {
   email: string;
   password: string;
 };
+
+export type TLoginFields = {
+  email: string;
+  password: string;
+};
