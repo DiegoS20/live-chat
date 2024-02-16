@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import prisma from "../prisma";
-import { TLoginFields, TUser } from "../types";
+import { TLoginFields, TUserAccountInfo } from "../types";
 import FailResponse from "../utils/FailResponse";
 import ErrorWithCode from "../errors/ErrorWithCode";
 
@@ -11,7 +12,7 @@ export default class UserController {
    */
   public static async register(request: Request, response: Response) {
     await FailResponse(response, async () => {
-      const body = request.body as TUser;
+      const body = request.body as TUserAccountInfo;
       const { password, ...accountInfo } = body;
 
       // Hashing password
@@ -35,7 +36,7 @@ export default class UserController {
   public static async login(request: Request, response: Response) {
     await FailResponse(response, async () => {
       const ERROR_MESSAGE = "Incorrect credentials";
-      const { email, password } = request.body as TLoginFields;
+      const { email, password: reqPassword } = request.body as TLoginFields;
       const user = await prisma.user.findUnique({
         where: {
           email,
@@ -43,10 +44,19 @@ export default class UserController {
       });
       if (user == null) throw new ErrorWithCode(404, ERROR_MESSAGE);
 
-      const passwordValid = await bcrypt.compare(password, user.password);
+      const passwordValid = await bcrypt.compare(reqPassword, user.password);
       if (!passwordValid) throw new ErrorWithCode(401, ERROR_MESSAGE);
 
-      response.sendStatus(200);
+      const { password, ..._user } = user;
+      const token = jwt.sign(_user, process.env.JWT_SECRET_KEY as string, {
+        expiresIn: "7d",
+      });
+      response.json({
+        message: "User logged in successfully",
+        data: {
+          token,
+        },
+      });
     });
   }
 }
