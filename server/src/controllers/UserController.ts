@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../prisma";
-import { TUser } from "../types";
+import { TLoginFields, TUser } from "../types";
 import FailResponse from "../utils/FailResponse";
+import ErrorWithCode from "../errors/ErrorWithCode";
 
 export default class UserController {
   /**
@@ -25,6 +26,27 @@ export default class UserController {
       });
 
       response.sendStatus(201);
+    });
+  }
+
+  /**
+   * POST: /login
+   */
+  public static async login(request: Request, response: Response) {
+    await FailResponse(response, async () => {
+      const ERROR_MESSAGE = "Incorrect credentials";
+      const { email, password } = request.body as TLoginFields;
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (user == null) throw new ErrorWithCode(404, ERROR_MESSAGE);
+
+      const passwordValid = await bcrypt.compare(password, user.password);
+      if (!passwordValid) throw new ErrorWithCode(401, ERROR_MESSAGE);
+
+      response.sendStatus(200);
     });
   }
 }
