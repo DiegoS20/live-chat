@@ -6,13 +6,24 @@ import {
 import App from "./App";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const PROTECTED_ROUTES = [{ path: "/", element: <App /> }].map(
+  ({ path, element }) => ({
+    path,
+    element: <ProtectedRoute>{element}</ProtectedRoute>,
+  })
+);
+
+const UNPROTECTED_ROUTES = [
+  { path: "/register", element: <Register /> },
+  { path: "/login", element: <Login /> },
+];
 
 export default createBrowserRouter(
   createRoutesFromElements(
-    <>
-      <Route path="/" element={<App />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-    </>
+    [...PROTECTED_ROUTES, ...UNPROTECTED_ROUTES].map((r, i) => (
+      <Route key={i} {...r} />
+    ))
   )
 );
