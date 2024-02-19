@@ -27,7 +27,7 @@ export const register = async (user: TUser) => {
 
 export const login = async (email: string, password: string) => {
   try {
-    const res = await fetch(`${API_URL}/user/login`, {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,12 +40,12 @@ export const login = async (email: string, password: string) => {
 
     const status = res.status;
 
-    if (status != 200) {
-      const { message } = (await res.json()) as APIResponse;
-      throw new Error(message);
-    }
+    const { message, data } = (await res.json()) as APIResponse<{
+      token: string;
+    }>;
+    if (status != 200) throw new Error(message);
 
-    return true;
+    return data!.token;
   } catch (error: any) {
     console.warn(`User login service failed: ${error.message}`);
     return false;
