@@ -1,16 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { login as loginService } from "@/services/users";
 
 type TUserStore = {
-  jwt?: string;
+  jwt: string;
   setJWT: (jwt: string) => any;
 };
 
 const useUserStore = create<TUserStore>()(
   persist(
     (set) => ({
-      jwt: undefined,
-      setJWT: (jwt?: string) => set({ jwt }),
+      jwt: "",
+      setJWT: (jwt: string) => set({ jwt }),
     }),
     {
       name: "jwt",
@@ -19,15 +20,18 @@ const useUserStore = create<TUserStore>()(
 );
 
 export default function useAuth() {
-  const { jwt } = useUserStore((state) => state);
+  const { jwt, setJWT } = useUserStore((state) => state);
 
-  const login = () => {};
+  const login = async (email: string, password: string) => {
+    const token = await loginService(email, password);
+    if (token !== false) setJWT(token);
 
-  const logout = () => {};
+    return typeof token == "string";
+  };
 
   return {
     login,
-    logout,
+    logout: () => setJWT(""),
     isAuthorized: !!jwt,
   };
 }
