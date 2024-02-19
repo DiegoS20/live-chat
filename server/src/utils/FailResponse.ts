@@ -9,9 +9,9 @@ export default async function FailResponse(
     await codeToExecute();
   } catch (error: any) {
     response
+      .status(error instanceof ErrorWithCode ? error.statusCode : 500)
       .json({
         message: error.message,
-      })
-      .status(error instanceof ErrorWithCode ? error.statusCode : 500);
+      });
   }
 }
