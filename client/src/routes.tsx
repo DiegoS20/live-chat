@@ -11,14 +11,17 @@ import ProtectedRoute from "./components/ProtectedRoute";
 const PROTECTED_ROUTES = [{ path: "/", element: <App /> }].map(
   ({ path, element }) => ({
     path,
-    element: <ProtectedRoute>{element}</ProtectedRoute>,
+    element: <ProtectedRoute auth>{element}</ProtectedRoute>,
   })
 );
 
 const UNPROTECTED_ROUTES = [
   { path: "/register", element: <Register /> },
   { path: "/login", element: <Login /> },
-];
+].map(({ path, element }) => ({
+  path,
+  element: <ProtectedRoute>{element}</ProtectedRoute>,
+}));
 
 export default createBrowserRouter(
   createRoutesFromElements(
