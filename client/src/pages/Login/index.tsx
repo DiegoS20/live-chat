@@ -2,17 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Alert, Button, Grid, TextField } from "@mui/material";
+import useAuth from "@/hooks/useAuth";
 
 import FormWithImg from "@/components/FormWithImg";
 import WhiteLink from "@/components/WhiteLink";
 
 import img from "@/assets/images/login.jpg";
-import { login } from "@/services/users";
 
 const Form = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState(false);
-
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -25,10 +25,9 @@ const Form = () => {
   });
 
   const onSubmitHandler: SubmitHandler<TLogin> = async (data) => {
-    // TODO: Add jwt presistance
     const { email, password } = data;
-    const loggedIn = await login(email, password);
-    if (!loggedIn) return setError(true);
+    const token = await login(email, password);
+    if (!token) return setError(true);
 
     navigate("/");
   };
